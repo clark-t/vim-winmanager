@@ -1,45 +1,138 @@
 
 let s:desc1 = {
-  'split': [1],
+  'split': ['leaf'],
   'range': [1]
 }
 
 let s:desc2 = {
-  'split': [1, 1],
+  'split': [
+    'row', [
+      ['leaf'],
+      ['leaf']
+    ]
+  ]
 }
 
 let s:desc31 = {
-  'split': [1, 2],
+  'split': [
+    'row', [
+      ['leaf'],
+      [
+        'col', [
+          ['leaf'],
+          ['leaf']
+        ]
+      ]
+    ]
+  ]
 }
 
 let s:desc32 = {
-  'split': [1, 1, 1],
+  'split': [
+    'row': [
+      ['leaf'],
+      ['leaf'],
+      ['leaf']
+    ]
+  ]
 }
 
 let s:desc41 = {
-  'split': [2, 2],
+  'split': [
+    'row', [
+      [
+        'col', [
+          ['leaf'],
+          ['leaf']
+        ]
+      ],
+      [
+        'col', [
+          ['leaf'],
+          ['leaf']
+        ]
+      ]
+    ]
+  ],
   'range': [1, 3, 2, 4]
 }
 
 let s:desc42 = {
-  'split': [1, 1, 2],
+  'split': [
+    'row': [
+      ['leaf'],
+      ['leaf'],
+      [
+        'col', [
+          ['leaf'],
+          ['leaf']
+        ]
+      ]
+    ]
+  ]
 }
 
 let s:desc51 = {
-  'split': [1, 2, 2],
+  'split': [
+    'row': [
+      ['leaf'],
+      [
+        'col', [
+          ['leaf'], ['leaf']
+        ]
+      ],
+      [
+        'col', [
+          ['leaf'], ['leaf']
+        ]
+      ]
+    ]
+  ],
   'range': [1, 2, 3, 4, 5]
 }
 
 let s:desc52 = {
-  'split': [2, 1, 2],
+  'split': [
+    'row': [
+      [
+        'col', [
+          ['leaf'], ['leaf']
+        ]
+      ],
+      ['leaf'],
+      [
+        'col', [
+          ['leaf'], ['leaf']
+        ]
+      ]
+    ]
+  ],
   'range': [3, 1, 2, 4, 5]
 }
 
 let s:desc6 = {
-  'split': [2, 2, 2],
+  'split': [
+    'row': [
+      [
+        'col', [
+          ['leaf'], ['leaf']
+        ]
+      ],
+      [
+        'col', [
+          ['leaf'], ['leaf']
+        ]
+      ],
+      [
+        'col', [
+          ['leaf'], ['leaf']
+        ]
+      ]
+    ]
+  ]
 }
 
-let s:windowDesc = {
+let s:desc = {
   '1': s:desc1,
   '2': s:desc2,
   '3': s:desc31,
@@ -54,11 +147,65 @@ let s:windowDesc = {
   '6': s:desc6
 }
 
-function! winmanager#getWindowDesc(num)
-  return get(s:windowDesc, num, [])
+function! winmanager#desc(num)
+  return get(s:desc, num, [])
 endfunction
 
-function! GetWindowIds()
+function! LengthOfLayout(layout)
+  if layout[0] == 'leaf'
+    return 1
+  elseif
+    return len(layout[1])
+  endif
+endfunction
+
+function! GetItem(layout, num)
+  if a:layout[0] == 'leaf'
+    return a:layout
+  else
+    return a:layout[1][a:num]
+  endif
+endfunction
+
+function! IsMatch(layout, desc)
+  if a:layout[0] != a:desc[0]
+    return v:false
+  endif
+
+  let l:descs = a:desc[1]
+  if type(l:descs) != v:t_list
+    return v:true
+  endif
+
+  let l:children = a:layout[1]
+  let i = 0
+  let lenOfChilren = len(l:descs)
+  while i < lenOfChilren
+    if !MatchLayout(l:children[i], l:descs[i])
+      return v:false
+    endif
+    let i += 1
+  endwhile
+
+  return v:true
+endfunction
+
+function! winmanager#num()
+  let layout = winlayout()
+
+  let nums = keys(s:desc)
+
+  for l:num in nums
+    let desc = s:desc[l:num]
+    if IsMatch(layout, desc['split'])
+      return l:num
+    endif
+  endfor
+
+  return -1
+endfunction
+
+function! winmanager#winids()
   let s:layout = winlayout()
   let s:ids = []
   let s:stack = [s:layout]
@@ -74,6 +221,75 @@ function! GetWindowIds()
   endwhile
 
   return s:ids
+endfunction
+
+
+function! winmanager#split(num)
+  let desc = winmanager#desc(a:num)
+  let s:rownum = len(s:winarr)
+
+  if s:rownum == 0
+    silent execute "normal! :echo 'split [" . a:num . "] windows is not support yet.'\<CR>"
+    return
+  endif
+
+  silent execute "normal! :only\<CR>"
+
+  let s:i = 1
+  while s:i < s:rownum
+    silent execute "normal! :vsplit\<CR>"
+    let s:i = s:i + 1
+  endwhile
+
+  let s:i = s:rownum
+  while s:i > 0
+    let s:colnum = s:winarr[s:i - 1]
+    if s:colnum > 1
+      call GoWindow(s:i)
+
+      let s:j = s:colnum
+      while s:j > 1
+        silent execute "normal! :split\<CR>"
+        let s:j = s:j - 1
+      endwhile
+
+    endif
+    let s:i = s:i - 1
+  endwhile
+endfunction
+
+function! SwapWindow(...)
+  let s:winnrs = []
+  if a:0 == 0
+    let s:winnrs = ['1', '2']
+  else
+    if a:0 == 1
+      let s:winnrs = [winnr(), a:1]
+    else
+      let s:winnrs = [a:1, a:2]
+    end
+  endif
+
+  let s:bufnrs = []
+  for nr in s:winnrs
+    let s:buf = winbufnr(nr)
+    if s:buf == -1
+      execute "normal :echoerr '[" . nr . "] is not a valid number'\<CR>"
+      return
+    endif
+    call add(s:bufnrs, s:buf)
+  endfor
+
+  call reverse(s:bufnrs)
+  for nr in s:winnrs
+    let i = index(s:winnrs, nr)
+    call GoWindow(nr)
+    silent execute "normal! :b! " . s:bufnrs[i] . "\<CR>"
+  endfor
+endfunction
+
+function! GoWindow(num)
+  call win_gotoid(win_getid(a:num))
 endfunction
 
 
