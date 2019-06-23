@@ -166,7 +166,7 @@ let s:desc = {
       \   '6': s:desc6
       \ }
 
-function! winmanager#getRange(num)
+function! winmanager#desc#getRange(num)
   let desc = winmanager#desc#get(a:num)
 
   if !winmanager#utils#isExists(desc)
