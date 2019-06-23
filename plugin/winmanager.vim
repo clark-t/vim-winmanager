@@ -3,6 +3,11 @@
 "  @author clark-t(clarktanglei@163.com)
 " }}
 
+if exists('loaded_vim_winmanager')
+  finish
+endif
+
+let loaded_vim_winmanager = 1
 
 " window fast selection
 nnoremap <silent> <Leader>1 :call winmanager#go#exec(1)<CR>
