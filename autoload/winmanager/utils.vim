@@ -4,7 +4,7 @@ function! winmanager#utils#isExists(val)
 endfunction
 
 function! winmanager#utils#getVal(obj, key)
-  return get(a:obj, key, -1)
+  return get(a:obj, a:key, -1)
 endfunction
 
 

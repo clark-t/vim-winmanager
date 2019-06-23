@@ -9,11 +9,44 @@ function! StoreBufNrs(num, nrs)
   return v:true
 endfunction
 
+function! GetStoredBufNr(num, oldNum)
+  let result = winmanager#utils#getVal(s:layoutStore, a:num)
+  if winmanager#utils#isExists(result)
+    return result
+  endif
+
+  let allKeys = keys(s:layoutStore)
+  let lenOfKeys = len(allKeys)
+  if lenOfKeys == 0
+    return -1
+  endif
+  let allKeys = winmanager#utils#sortNums(allKeys)
+  call reverse(allKeys)
+  let mainNum = winmanager#utils#getMainNum(a:num)
+  for i in allKeys
+    let storedMainNum = winmanager#utils#getMainNum(i)
+    if mainNum <= storedMainNum
+      return s:layoutStore[i]
+    endif
+  endfor
+
+  call reverse(allKeys)
+  let oldMainNum = winmanager#utils#getMainNum(a:oldNum)
+  for i in allKeys
+    let storedMainNum = winmanager#utils#getMainNum(i)
+    if a:oldNum < storedMainNum
+      return s:layoutStore[i]
+    endif
+  endfor
+  return -1
+endfunction
+
 function! winmanager#split#exec(num) abort
   let oldLayout = winlayout()
   let oldNum = winmanager#desc#num(oldLayout)
   let oldRange = winmanager#desc#getRange(oldNum)
   let oldBufNrs = winmanager#desc#getRangedBufNrs(oldRange)
+
   if oldNum > 0
     call StoreBufNrs(oldNum, oldBufNrs)
   endif
@@ -23,10 +56,12 @@ function! winmanager#split#exec(num) abort
   call SplitWindow(a:num)
 
   let newRange = winmanager#desc#getRange(a:num)
+
   let i = 0
   let oldLen = len(oldBufNrs)
   let newLen = len(newRange)
   let minLen = winmanager#utils#min(oldLen, newLen)
+
   while i < minLen
     call winmanager#go#exec(newRange[i])
     silent execute "normal! :b " . oldBufNrs[i] . "\<CR>"
@@ -34,16 +69,18 @@ function! winmanager#split#exec(num) abort
   endwhile
 
   if newLen > oldLen
-    let stored = winmanager#utils#getVal(stored)
+    let stored = GetStoredBufNr(a:num, oldNum)
     if winmanager#utils#isExists(stored)
       let i = oldLen
-      while i < newLen
+      let minLen = winmanager#utils#min(len(stored), newLen)
+      while i < minLen
         call winmanager#go#exec(newRange[i])
         silent execute "normal! :b " . stored[i] . "\<CR>"
         let i += 1
       endwhile
     endif
   endif
+
   call winmanager#go#exec(newRange[0])
 endfunction
 
