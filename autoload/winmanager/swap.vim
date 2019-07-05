@@ -1,5 +1,7 @@
 
 function! winmanager#swap#exec(...)
+  let winid = win_getid()
+
   let winnrs = []
   if a:0 == 0
     let winnrs = ['1', '2']
@@ -30,6 +32,8 @@ function! winmanager#swap#exec(...)
     silent execute "normal! :b! " . bufnrs[i] . "\<CR>"
     let i += 1
   endwhile
+
+  call win_gotoid(winid)
 endfunction
 
 

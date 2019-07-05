@@ -41,6 +41,14 @@ function! GetStoredBufNr(num, oldNum)
   return -1
 endfunction
 
+function! winmanager#split#main(...) abort
+  if a:0 == 0
+    call winmanager#split#refresh()
+  else
+    call winmanager#split#exec(a:1)
+  endif
+endfunction
+
 function! winmanager#split#exec(num) abort
   let oldLayout = winlayout()
   let oldNum = winmanager#desc#num(oldLayout)
@@ -84,6 +92,11 @@ function! winmanager#split#exec(num) abort
   call winmanager#go#exec(newRange[0])
 endfunction
 
+function! winmanager#split#refresh() abort
+  let layout = winlayout()
+  let num = winmanager#desc#num(layout)
+  call winmanager#split#exec(num)
+endfunction
 
 function! SplitWindow(num)
   let desc = winmanager#desc#get(a:num)

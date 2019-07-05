@@ -24,12 +24,14 @@ nnoremap <silent> <Leader>6 :call winmanager#go#exec(6)<CR>
 " nnoremap <silent> 5 :call winmanager#go#exec(5)<CR>
 " nnoremap <silent> 6 :call winmanager#go#exec(6)<CR>
 
-command -nargs=1 Split :call winmanager#split#exec(<f-args>)
-command -nargs=1 SP :call winmanager#split#exec(<f-args>)
-command -nargs=1 Sp :call winmanager#split#exec(<f-args>)
+command -nargs=* Split :call winmanager#split#main(<f-args>)
+command -nargs=* SP :call winmanager#split#main(<f-args>)
+command -nargs=* Sp :call winmanager#split#main(<f-args>)
+" command -nargs=0 Sp :call wubnabager#split#refresh()
 
 command -nargs=* Swap :call winmanager#swap#exec(<f-args>)
 command -nargs=* SW :call winmanager#swap#exec(<f-args>)
 command -nargs=* Sw :call winmanager#swap#exec(<f-args>)
 
+autocmd! VimResized * call winmanager#split#refresh()
 

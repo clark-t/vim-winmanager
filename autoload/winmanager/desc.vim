@@ -10,24 +10,10 @@ let s:desc2 = {
       \       ['leaf']
       \     ]
       \   ],
+      \ 'range': [2, 1]
       \ }
 
 let s:desc31 = {
-      \   'layout': [
-      \     'row', [
-      \       ['leaf'],
-      \       [
-      \         'col',
-      \         [
-      \           ['leaf'],
-      \           ['leaf']
-      \         ]
-      \       ]
-      \     ]
-      \   ],
-      \ }
-
-let s:desc32 = {
       \   'layout': [
       \     'row', [
       \       ['leaf'],
@@ -36,6 +22,22 @@ let s:desc32 = {
       \     ]
       \   ],
       \   'range': [2, 1, 3]
+      \ }
+
+let s:desc32 = {
+      \   'layout': [
+      \     'row', [
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       ['leaf']
+      \     ]
+      \   ],
+      \ 'range': [3, 1, 2]
       \ }
 
 let s:desc41 = {
@@ -74,7 +76,7 @@ let s:desc42 = {
       \       ]
       \     ]
       \   ],
-      \   'range': [1, 3, 2, 4]
+      \   'range': [3, 1, 4, 2]
       \ }
 
 let s:desc51 = {
