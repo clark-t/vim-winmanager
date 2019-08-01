@@ -185,7 +185,7 @@ function! winmanager#desc#getRange(num)
 endfunction
 
 function! winmanager#desc#getWindowLength(layout)
-  let winids = winmanager#desc#getWindowIds(layout)
+  let winids = winmanager#desc#getWindowIds(a:layout)
   return len(winids)
 endfunction
 
