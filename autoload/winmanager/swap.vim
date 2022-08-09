@@ -1,5 +1,9 @@
 
 function! winmanager#swap#exec(...)
+  if exists('g:vim_winmanager_command_before_swap')
+    silent execute g:vim_winmanager_command_before_swap
+  endif
+
   let winid = win_getid()
 
   let winnrs = []
@@ -34,6 +38,10 @@ function! winmanager#swap#exec(...)
   endwhile
 
   call win_gotoid(winid)
+
+  if exists('g:vim_winmanager_command_after_swap')
+    silent execute g:vim_winmanager_command_after_swap
+  endif
 endfunction
 
 

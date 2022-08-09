@@ -42,10 +42,18 @@ function! GetStoredBufNr(num, oldNum)
 endfunction
 
 function! winmanager#split#main(...) abort
+  if exists('g:vim_winmanager_command_before_split')
+    silent execute g:vim_winmanager_command_before_split
+  endif
+
   if a:0 == 0
     call winmanager#split#refresh()
   else
     call winmanager#split#exec(a:1)
+  endif
+
+  if exists('g:vim_winmanager_command_after_split')
+    silent execute g:vim_winmanager_command_after_split
   endif
 endfunction
 
