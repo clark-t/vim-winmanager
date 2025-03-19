@@ -3,9 +3,18 @@ let s:desc1 = {
       \   'layout': ['leaf']
       \ }
 
-let s:desc2 = {
+let s:desc21 = {
       \   'layout': [
       \     'row', [
+      \       ['leaf'],
+      \       ['leaf']
+      \     ]
+      \   ],
+      \ }
+
+let s:desc22 = {
+      \   'layout': [
+      \     'col', [
       \       ['leaf'],
       \       ['leaf']
       \     ]
@@ -25,6 +34,7 @@ let s:desc31 = {
 let s:desc32 = {
       \   'layout': [
       \     'row', [
+      \       ['leaf'],
       \       [
       \         'col',
       \         [
@@ -32,6 +42,60 @@ let s:desc32 = {
       \           ['leaf']
       \         ]
       \       ],
+      \     ]
+      \   ],
+      \ }
+
+let s:desc33 = {
+      \   'layout': [
+      \     'row', [
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       ['leaf']
+      \     ]
+      \   ],
+      \ }
+
+let s:desc34 = {
+      \   'layout': [
+      \     'col', [
+      \       [
+      \         'rol',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       ['leaf']
+      \     ]
+      \   ],
+      \ }
+
+let s:desc35 = {
+      \   'layout': [
+      \     'col', [
+      \       ['leaf'],
+      \       [
+      \         'row',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \     ]
+      \   ],
+      \ }
+
+let s:desc36 = {
+      \   'layout': [
+      \     'col', [
+      \       ['leaf'],
+      \       ['leaf'],
       \       ['leaf']
       \     ]
       \   ],
@@ -70,6 +134,70 @@ let s:desc42 = {
       \           ['leaf']
       \         ]
       \       ]
+      \     ]
+      \   ],
+      \ }
+
+let s:desc43 = {
+      \   'layout': [
+      \     'row', [
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       ['leaf'],
+      \       ['leaf'],
+      \     ]
+      \   ],
+      \ }
+
+let s:desc44 = {
+      \   'layout': [
+      \     'row', [
+      \       ['leaf'],
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       ['leaf'],
+      \     ]
+      \   ],
+      \ }
+
+let s:desc45 = {
+      \   'layout': [
+      \     'row', [
+      \       ['leaf'],
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ]
+      \     ]
+      \   ],
+      \ }
+
+let s:desc46 = {
+      \   'layout': [
+      \     'row', [
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       ['leaf'],
       \     ]
       \   ],
       \ }
@@ -118,7 +246,74 @@ let s:desc52 = {
       \   ],
       \ }
 
-let s:desc6 = {
+let s:desc53 = {
+      \   'layout': [
+      \     'row', [
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       ['leaf'],
+      \     ]
+      \   ],
+      \ }
+
+let s:desc54 = {
+      \   'layout': [
+      \     'row', [
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf'],
+      \           ['leaf'],
+      \         ]
+      \       ],
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \     ]
+      \   ],
+      \ }
+
+
+let s:desc55 = {
+      \   'layout': [
+      \     'row', [
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf'],
+      \           ['leaf'],
+      \         ]
+      \       ],
+      \     ]
+      \   ],
+      \ }
+
+let s:desc61 = {
       \   'layout': [
       \     'row', [
       \       [
@@ -146,19 +341,58 @@ let s:desc6 = {
       \   ],
       \ }
 
+let s:desc62 = {
+      \   'layout': [
+      \     'row', [
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \       [
+      \         'col',
+      \         [
+      \           ['leaf'],
+      \           ['leaf'],
+      \           ['leaf']
+      \         ]
+      \       ],
+      \     ]
+      \   ],
+      \ }
+
+
 let s:desc = {
       \   '1': s:desc1,
-      \   '2': s:desc2,
+      \   '2': s:desc21,
+      \   '21': s:desc21,
+      \   '22': s:desc22,
       \   '3': s:desc31,
       \   '31': s:desc31,
       \   '32': s:desc32,
+      \   '33': s:desc33,
+      \   '34': s:desc34,
+      \   '35': s:desc35,
+      \   '36': s:desc36,
       \   '4': s:desc41,
       \   '41': s:desc41,
       \   '42': s:desc42,
+      \   '43': s:desc43,
+      \   '44': s:desc44,
+      \   '45': s:desc45,
+      \   '46': s:desc46,
       \   '5': s:desc51,
       \   '51': s:desc51,
       \   '52': s:desc52,
-      \   '6': s:desc6
+      \   '53': s:desc53,
+      \   '54': s:desc54,
+      \   '55': s:desc55,
+      \   '6': s:desc61,
+      \   '61': s:desc61,
+      \   '62': s:desc62,
       \ }
 
 function! winmanager#desc#getRange(num)
